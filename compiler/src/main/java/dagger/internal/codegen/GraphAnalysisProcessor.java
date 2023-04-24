@@ -15,8 +15,8 @@
  */
 package dagger.internal.codegen;
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.ModuleDagger1;
+import dagger.ProvidesDagger1;
 import dagger.internal.Binding;
 import dagger.internal.Binding.InvalidBindingException;
 import dagger.internal.BindingsGroup;
@@ -56,8 +56,8 @@ import javax.tools.FileObject;
 import javax.tools.JavaFileManager;
 import javax.tools.StandardLocation;
 
-import static dagger.Provides.Type.SET;
-import static dagger.Provides.Type.SET_VALUES;
+import static dagger.ProvidesDagger1.Type.SET;
+import static dagger.ProvidesDagger1.Type.SET_VALUES;
 import static dagger.internal.codegen.Util.className;
 import static dagger.internal.codegen.Util.getAnnotation;
 import static dagger.internal.codegen.Util.getPackage;
@@ -86,7 +86,7 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
     if (!env.processingOver()) {
       // Storing module names for later retrieval as the element instance is invalidated across
       // passes.
-      for (Element e : env.getElementsAnnotatedWith(Module.class)) {
+      for (Element e : env.getElementsAnnotatedWith(ModuleDagger1.class)) {
         if (!(e instanceof TypeElement)) {
           error("@Module applies to a type, " + e.getSimpleName() + " is a " + e.getKind(), e);
           continue;
@@ -104,7 +104,7 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
     for (Element element : modules) {
       Map<String, Object> annotation = null;
       try {
-        annotation = getAnnotation(Module.class, element);
+        annotation = getAnnotation(ModuleDagger1.class, element);
       } catch (CodeGenerationIncompleteException e) {
         continue; // skip this element. An up-stream compiler error is in play.
       }
@@ -185,7 +185,7 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
         }
       };
       for (TypeElement module : allModules.values()) {
-        Map<String, Object> annotation = getAnnotation(Module.class, module);
+        Map<String, Object> annotation = getAnnotation(ModuleDagger1.class, module);
         boolean overrides = (Boolean) annotation.get("overrides");
         boolean library = (Boolean) annotation.get("library");
         BindingsGroup addTo = overrides ? overrideBindings : baseBindings;
@@ -212,8 +212,8 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
 
         // Gather the enclosed @Provides methods.
         for (Element enclosed : module.getEnclosedElements()) {
-          Provides provides = enclosed.getAnnotation(Provides.class);
-          if (provides == null) {
+          ProvidesDagger1 providesDagger1 = enclosed.getAnnotation(ProvidesDagger1.class);
+          if (providesDagger1 == null) {
             continue;
           }
           ExecutableElement providerMethod = (ExecutableElement) enclosed;
@@ -222,7 +222,7 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
 
           Binding<?> previous = addTo.get(key);
           if (previous != null) {
-            if ((provides.type() == SET || provides.type() == SET_VALUES)
+            if ((providesDagger1.type() == SET || providesDagger1.type() == SET_VALUES)
                 && previous instanceof SetBinding) {
               // No duplicate bindings error if both bindings are set bindings.
             } else {
@@ -235,7 +235,7 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
             }
           }
 
-          switch (provides.type()) {
+          switch (providesDagger1.type()) {
             case UNIQUE:
               if (injectsProvisionKeys.contains(binding.provideKey)) {
                 binding.setDependedOn(true);
@@ -257,7 +257,7 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
               break;
 
             default:
-              throw new AssertionError("Unknown @Provides type " + provides.type());
+              throw new AssertionError("Unknown @Provides type " + providesDagger1.type());
           }
         }
       }
@@ -280,7 +280,7 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
 
   void collectIncludesRecursively(
       TypeElement module, Map<String, TypeElement> result, Deque<String> path) {
-    Map<String, Object> annotation = getAnnotation(Module.class, module);
+    Map<String, Object> annotation = getAnnotation(ModuleDagger1.class, module);
     if (annotation == null) {
       // TODO(tbroyer): pass annotation information
       throw new ModuleValidationException("No @Module on " + module, module);

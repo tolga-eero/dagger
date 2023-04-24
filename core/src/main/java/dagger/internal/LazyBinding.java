@@ -16,12 +16,12 @@
  */
 package dagger.internal;
 
-import dagger.Lazy;
+import dagger.LazyDagger1;
 
 /**
- * Injects a Lazy wrapper for a type T
+ * Injects a LazyDagger1 wrapper for a type T
  */
-final class LazyBinding<T> extends Binding<Lazy<T>> {
+final class LazyBinding<T> extends Binding<LazyDagger1<T>> {
 
   final static Object NOT_PRESENT = new Object();
 
@@ -35,19 +35,19 @@ final class LazyBinding<T> extends Binding<Lazy<T>> {
     this.lazyKey = lazyKey;
   }
 
-  @SuppressWarnings("unchecked") // At runtime we know it's a Binding<Lazy<T>>.
+  @SuppressWarnings("unchecked") // At runtime we know it's a Binding<LazyDagger1<T>>.
   @Override
   public void attach(Linker linker) {
     delegate = (Binding<T>) linker.requestBinding(lazyKey, requiredBy, loader);
   }
 
-  @Override public void injectMembers(Lazy<T> t) {
-    throw new UnsupportedOperationException(); // Injecting into a custom Lazy not supported.
+  @Override public void injectMembers(LazyDagger1<T> t) {
+    throw new UnsupportedOperationException(); // Injecting into a custom LazyDagger1 not supported.
   }
 
   @Override
-  public Lazy<T> get() {
-    return new Lazy<T>() {
+  public LazyDagger1<T> get() {
+    return new LazyDagger1<T>() {
       private volatile Object cacheValue = NOT_PRESENT;
 
       @SuppressWarnings("unchecked") // Delegate is of type T

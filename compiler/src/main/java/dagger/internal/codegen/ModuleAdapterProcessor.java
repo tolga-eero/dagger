@@ -23,9 +23,9 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import dagger.Lazy;
-import dagger.Module;
-import dagger.Provides;
+import dagger.LazyDagger1;
+import dagger.ModuleDagger1;
+import dagger.ProvidesDagger1;
 import dagger.internal.BindingsGroup;
 import dagger.internal.Linker;
 import dagger.internal.ModuleAdapter;
@@ -84,7 +84,7 @@ import static javax.lang.model.element.Modifier.STATIC;
 @SupportedAnnotationTypes({ "*" })
 public final class ModuleAdapterProcessor extends AbstractProcessor {
   private static final List<String> INVALID_RETURN_TYPES =
-      Arrays.asList(Provider.class.getCanonicalName(), Lazy.class.getCanonicalName());
+      Arrays.asList(Provider.class.getCanonicalName(), LazyDagger1.class.getCanonicalName());
 
   private final LinkedHashMap<String, List<ExecutableElement>> remainingTypes =
       new LinkedHashMap<String, List<ExecutableElement>>();
@@ -103,7 +103,7 @@ public final class ModuleAdapterProcessor extends AbstractProcessor {
       try {
         // Attempt to get the annotation. If types are missing, this will throw
         // CodeGenerationIncompleteException.
-        Map<String, Object> parsedAnnotation = getAnnotation(Module.class, type);
+        Map<String, Object> parsedAnnotation = getAnnotation(ModuleDagger1.class, type);
         if (parsedAnnotation == null) {
           error(type + " has @Provides methods but no @Module annotation", type);
           continue;
@@ -200,7 +200,7 @@ public final class ModuleAdapterProcessor extends AbstractProcessor {
 
     // Catch any stray modules without @Provides since their injectable types
     // should still be registered and a ModuleAdapter should still be written.
-    for (Element module : env.getElementsAnnotatedWith(Module.class)) {
+    for (Element module : env.getElementsAnnotatedWith(ModuleDagger1.class)) {
       if (!module.getKind().equals(ElementKind.CLASS)) {
         error("Modules must be classes: " + elementToString(module), module);
         continue;
@@ -222,7 +222,7 @@ public final class ModuleAdapterProcessor extends AbstractProcessor {
 
   private Set<? extends Element> findProvidesMethods(RoundEnvironment env) {
     Set<Element> result = new LinkedHashSet<Element>();
-    result.addAll(env.getElementsAnnotatedWith(Provides.class));
+    result.addAll(env.getElementsAnnotatedWith(ProvidesDagger1.class));
     return result;
   }
 
@@ -253,7 +253,7 @@ public final class ModuleAdapterProcessor extends AbstractProcessor {
 
     TypeSpec.Builder adapterBuilder = TypeSpec.classBuilder(adapterClassName.simpleName())
         .addOriginatingElement(type)
-        .addJavadoc(AdapterJavadocs.MODULE_TYPE, Provides.class)
+        .addJavadoc(AdapterJavadocs.MODULE_TYPE, ProvidesDagger1.class)
         .superclass(ParameterizedTypeName.get(ClassName.get(ModuleAdapter.class), moduleClassName))
         .addModifiers(PUBLIC, FINAL);
 
@@ -300,8 +300,8 @@ public final class ModuleAdapterProcessor extends AbstractProcessor {
           .addParameter(moduleClassName, "module");
 
       for (ExecutableElement providerMethod : providerMethods) {
-        Provides provides = providerMethod.getAnnotation(Provides.class);
-        switch (provides.type()) {
+        ProvidesDagger1 providesDagger1 = providerMethod.getAnnotation(ProvidesDagger1.class);
+        switch (providesDagger1.type()) {
           case UNIQUE: {
             getBindings.addStatement("bindings.contributeProvidesBinding($S, new $T(module))",
                 GeneratorKeys.get(providerMethod),
@@ -326,7 +326,7 @@ public final class ModuleAdapterProcessor extends AbstractProcessor {
             break;
           }
           default:
-            throw new AssertionError("Unknown @Provides type " + provides.type());
+            throw new AssertionError("Unknown @Provides type " + providesDagger1.type());
         }
       }
       adapterBuilder.addMethod(getBindings.build());

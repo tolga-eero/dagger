@@ -15,15 +15,13 @@
  */
 package coffee;
 
-import dagger.Module;
+import dagger.ModuleDagger1;
 import dagger.ObjectGraph;
-import dagger.Provides;
+import dagger.ProvidesDagger1;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
 public class CoffeeMakerTest {
@@ -34,13 +32,14 @@ public class CoffeeMakerTest {
     ObjectGraph.create(new TestModule()).inject(this);
   }
 
-  @Module(
+  @ModuleDagger1(
       includes = DripCoffeeModule.class,
       injects = CoffeeMakerTest.class,
       overrides = true
   )
   static class TestModule {
-    @Provides @Singleton Heater provideHeater() {
+    @ProvidesDagger1
+    @Singleton Heater provideHeater() {
       return Mockito.mock(Heater.class);
     }
   }

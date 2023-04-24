@@ -15,14 +15,14 @@
  */
 package dagger.internal;
 
-import dagger.MembersInjector;
+import dagger.MembersInjectorDagger1;
 import java.util.Set;
 import javax.inject.Provider;
 
 /**
  * Injects a value of a specific type.
  */
-public abstract class Binding<T> implements Provider<T>, MembersInjector<T> {
+public abstract class Binding<T> implements Provider<T>, MembersInjectorDagger1<T> {
   public static final Binding<Object> UNRESOLVED = new Binding<Object>(null, null, false, null) {
     @Override public Object get() {
       throw new AssertionError("Unresolved binding should never be called to inject.");

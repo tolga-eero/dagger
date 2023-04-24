@@ -144,7 +144,7 @@ package dagger;
  * Use {@linkplain javax.inject.Singleton @Singleton} to share one instance
  * among all clients, and {@code Lazy} for lazy computation in a single client.
  */
-public interface Lazy<T> {
+public interface LazyDagger1<T> {
   /**
    * Return the underlying value, computing the value if necessary. All calls to
    * the same {@code Lazy} instance will return the same result.

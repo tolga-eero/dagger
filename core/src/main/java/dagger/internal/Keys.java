@@ -16,8 +16,8 @@
  */
 package dagger.internal;
 
-import dagger.Lazy;
-import dagger.MembersInjector;
+import dagger.LazyDagger1;
+import dagger.MembersInjectorDagger1;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -42,8 +42,8 @@ import javax.inject.Qualifier;
 public final class Keys {
   private static final String PROVIDER_PREFIX = Provider.class.getCanonicalName() + "<";
   private static final String MEMBERS_INJECTOR_PREFIX =
-      MembersInjector.class.getCanonicalName() + "<";
-  private static final String LAZY_PREFIX = Lazy.class.getCanonicalName() + "<";
+      MembersInjectorDagger1.class.getCanonicalName() + "<";
+  private static final String LAZY_PREFIX = LazyDagger1.class.getCanonicalName() + "<";
   private static final String SET_PREFIX = Set.class.getCanonicalName() + "<";
 
   private static final Memoizer<Class<? extends Annotation>, Boolean> IS_QUALIFIER_ANNOTATION =

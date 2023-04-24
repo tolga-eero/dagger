@@ -1,11 +1,12 @@
 package coffee;
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.ModuleDagger1;
+import dagger.ProvidesDagger1;
 
-@Module(complete = false, library = true)
+@ModuleDagger1(complete = false, library = true)
 class PumpModule {
-  @Provides Pump providePump(Thermosiphon pump) {
+  @ProvidesDagger1
+  Pump providePump(Thermosiphon pump) {
     return pump;
   }
 }

@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Module {
+public @interface ModuleDagger1 {
   /**
    * Returns classes that object graphs created with this module must be able to
    * inject. This includes both classes passed to {@link ObjectGraph#get},

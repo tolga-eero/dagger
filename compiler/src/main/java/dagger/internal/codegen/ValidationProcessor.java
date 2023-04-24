@@ -16,8 +16,8 @@
  */
 package dagger.internal.codegen;
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.ModuleDagger1;
+import dagger.ProvidesDagger1;
 import dagger.internal.codegen.Util.CodeGenerationIncompleteException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,8 +77,8 @@ public final class ValidationProcessor extends AbstractProcessor {
   }
 
   private void validateProvides(Element element) {
-    if (element.getAnnotation(Provides.class) != null
-        && Util.getAnnotation(Module.class, element.getEnclosingElement()) == null) {
+    if (element.getAnnotation(ProvidesDagger1.class) != null
+        && Util.getAnnotation(ModuleDagger1.class, element.getEnclosingElement()) == null) {
       error("@Provides methods must be declared in modules: " + elementToString(element), element);
     }
   }
@@ -184,7 +184,7 @@ public final class ValidationProcessor extends AbstractProcessor {
   }
 
   private boolean isProvidesMethod(Element element) {
-    return element.getKind() == METHOD && element.getAnnotation(Provides.class) != null;
+    return element.getKind() == METHOD && element.getAnnotation(ProvidesDagger1.class) != null;
   }
 
   /**
@@ -193,7 +193,7 @@ public final class ValidationProcessor extends AbstractProcessor {
    */
   private boolean isProvidesMethodParameter(
       Element parameter, Map<Element, Element> parametersToTheirMethods) {
-    return parametersToTheirMethods.get(parameter).getAnnotation(Provides.class) != null;
+    return parametersToTheirMethods.get(parameter).getAnnotation(ProvidesDagger1.class) != null;
   }
 
   /**

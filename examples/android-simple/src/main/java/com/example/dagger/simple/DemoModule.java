@@ -16,9 +16,9 @@
 package com.example.dagger.simple;
 
 import com.example.dagger.simple.ui.HomeActivity;
-import dagger.Module;
+import dagger.ModuleDagger1;
 
-@Module(
+@ModuleDagger1(
     injects = HomeActivity.class,
     complete = false
 )

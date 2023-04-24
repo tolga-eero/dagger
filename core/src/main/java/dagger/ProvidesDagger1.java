@@ -31,7 +31,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Bob Lee
  */
 @Documented @Target(METHOD) @Retention(RUNTIME)
-public @interface Provides {
+public @interface ProvidesDagger1 {
   /** The type of binding into which the return type of the annotated method contributes. */
   enum Type {
     /**

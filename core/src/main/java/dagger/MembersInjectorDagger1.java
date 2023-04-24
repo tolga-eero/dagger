@@ -25,7 +25,7 @@ package dagger;
  * @author Bob Lee
  * @author Jesse Wilson
  */
-public interface MembersInjector<T> {
+public interface MembersInjectorDagger1<T> {
 
   /**
    * Injects dependencies into the fields and methods of {@code instance}.

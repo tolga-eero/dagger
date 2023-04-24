@@ -19,8 +19,8 @@ import android.content.Context;
 import com.example.dagger.activitygraphs.ui.ActivityTitleController;
 import com.example.dagger.activitygraphs.ui.HomeActivity;
 import com.example.dagger.activitygraphs.ui.HomeFragment;
-import dagger.Module;
-import dagger.Provides;
+import dagger.ModuleDagger1;
+import dagger.ProvidesDagger1;
 import javax.inject.Singleton;
 
 /**
@@ -28,7 +28,7 @@ import javax.inject.Singleton;
  * safely create singletons using the activity instance because the entire object graph will only
  * ever exist inside of that activity.
  */
-@Module(
+@ModuleDagger1(
     injects = {
         HomeActivity.class,
         HomeFragment.class
@@ -47,11 +47,13 @@ public class ActivityModule {
    * Allow the activity context to be injected but require that it be annotated with
    * {@link ForActivity @ForActivity} to explicitly differentiate it from application context.
    */
-  @Provides @Singleton @ForActivity Context provideActivityContext() {
+  @ProvidesDagger1
+  @Singleton @ForActivity Context provideActivityContext() {
     return activity;
   }
 
-  @Provides @Singleton ActivityTitleController provideTitleController() {
+  @ProvidesDagger1
+  @Singleton ActivityTitleController provideTitleController() {
     return new ActivityTitleController(activity);
   }
 }

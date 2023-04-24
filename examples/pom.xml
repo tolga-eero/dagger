@@ -21,7 +21,7 @@
   <parent>
     <groupId>com.squareup.dagger</groupId>
     <artifactId>dagger-parent</artifactId>
-    <version>1.2.6-SNAPSHOT</version>
+    <version>1.2.5-eeroDagger1</version>
   </parent>
 
   <groupId>com.squareup.dagger.example</groupId>
@@ -41,9 +41,6 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>simple</module>
-        <module>android-simple</module>
-        <module>android-activity-graphs</module>
       </modules>
     </profile>
   </profiles>
