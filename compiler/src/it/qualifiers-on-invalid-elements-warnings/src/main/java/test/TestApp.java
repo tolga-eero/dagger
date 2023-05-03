@@ -19,8 +19,8 @@ package test;
 import dagger.Module;
 import dagger.Provides;
 import java.lang.annotation.Retention;
-import javax.inject.Inject;
-import javax.inject.Qualifier;
+import javax.inject.InjectDagger1;
+import javax.inject.QualifierDagger1;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -48,7 +48,7 @@ class TestApp {
     void nonProvidesMethod(@MyQualifier String methodParam) {}
   }
   
-  @Qualifier
+  @QualifierDagger1
   @Retention(value = RUNTIME)
   @interface MyQualifier {}
 }

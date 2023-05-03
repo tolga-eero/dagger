@@ -15,8 +15,8 @@
  */
 package test;
 
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
-@Inject
+@InjectDagger1
 class TestApp {
 }

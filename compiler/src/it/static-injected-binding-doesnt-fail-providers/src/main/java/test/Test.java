@@ -19,14 +19,14 @@ import dagger.Module;
 
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 import java.lang.Override;
 
 public class Test {
 
   public static class InjectsOneField {
-    @Inject static String staticallyInjectedString;
+    @InjectDagger1 static String staticallyInjectedString;
   }
 
   @Module(staticInjections = { InjectsOneField.class })

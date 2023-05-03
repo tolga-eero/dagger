@@ -46,8 +46,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.inject.Provider;
-import javax.inject.Singleton;
+import javax.inject.ProviderDagger1;
+import javax.inject.SingletonDagger1;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -84,7 +84,7 @@ import static javax.lang.model.element.Modifier.STATIC;
 @SupportedAnnotationTypes({ "*" })
 public final class ModuleAdapterProcessor extends AbstractProcessor {
   private static final List<String> INVALID_RETURN_TYPES =
-      Arrays.asList(Provider.class.getCanonicalName(), LazyDagger1.class.getCanonicalName());
+      Arrays.asList(ProviderDagger1.class.getCanonicalName(), LazyDagger1.class.getCanonicalName());
 
   private final LinkedHashMap<String, List<ExecutableElement>> remainingTypes =
       new LinkedHashMap<String, List<ExecutableElement>>();
@@ -435,7 +435,7 @@ public final class ModuleAdapterProcessor extends AbstractProcessor {
       result.addField(bindingOf(parameter.asType()), parameterName(parameter), PRIVATE);
     }
 
-    boolean singleton = providerMethod.getAnnotation(Singleton.class) != null;
+    boolean singleton = providerMethod.getAnnotation(SingletonDagger1.class) != null;
     String key = GeneratorKeys.get(providerMethod);
     result.addMethod(MethodSpec.constructorBuilder()
         .addModifiers(PUBLIC)

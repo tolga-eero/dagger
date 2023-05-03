@@ -21,7 +21,7 @@ import com.example.dagger.activitygraphs.ui.HomeActivity;
 import com.example.dagger.activitygraphs.ui.HomeFragment;
 import dagger.ModuleDagger1;
 import dagger.ProvidesDagger1;
-import javax.inject.Singleton;
+import javax.inject.SingletonDagger1;
 
 /**
  * This module represents objects which exist only for the scope of a single activity. We can
@@ -48,12 +48,12 @@ public class ActivityModule {
    * {@link ForActivity @ForActivity} to explicitly differentiate it from application context.
    */
   @ProvidesDagger1
-  @Singleton @ForActivity Context provideActivityContext() {
+  @SingletonDagger1 @ForActivity Context provideActivityContext() {
     return activity;
   }
 
   @ProvidesDagger1
-  @Singleton ActivityTitleController provideTitleController() {
+  @SingletonDagger1 ActivityTitleController provideTitleController() {
     return new ActivityTitleController(activity);
   }
 }

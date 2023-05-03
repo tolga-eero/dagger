@@ -17,14 +17,14 @@ package test;
 
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 class TestApp {
   static class NotInjectable {
   }
 
   static class InjectableSubclass extends NotInjectable {
-    @Inject String string;
+    @InjectDagger1 String string;
   }
 
   @Module(injects = InjectableSubclass.class)

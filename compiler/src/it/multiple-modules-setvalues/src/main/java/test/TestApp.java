@@ -21,9 +21,9 @@ import dagger.Module;
 import dagger.Provides;
 import java.util.HashSet;
 import java.util.Set;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
+import javax.inject.InjectDagger1;
+import javax.inject.ProviderDagger1;
+import javax.inject.SingletonDagger1;
 
 import static dagger.Provides.Type.SET;
 import static dagger.Provides.Type.SET_VALUES;
@@ -32,8 +32,8 @@ import static dagger.Provides.Type.SET_VALUES;
  * Contributions to {@code SET_VALUES} binding do not affect Set of providers.
  */
 class TestApp implements Runnable {
-  @Inject Set<Provider<String>> providers;
-  @Inject Set<String> strings;
+  @InjectDagger1 Set<ProviderDagger1<String>> providers;
+  @InjectDagger1 Set<String> strings;
 
   @Override public void run() {
     System.out.println(strings);
@@ -46,8 +46,8 @@ class TestApp implements Runnable {
   
   @Module(injects = TestApp.class)
   static class RootModule {
-    @Provides Set<Provider<String>> providers() {
-      return new HashSet<Provider<String>>();
+    @Provides Set<ProviderDagger1<String>> providers() {
+      return new HashSet<ProviderDagger1<String>>();
     }
     @Provides(type = SET_VALUES) Set<String> strings() {
       return new HashSet<String>();

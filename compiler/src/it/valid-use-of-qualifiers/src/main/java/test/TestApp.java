@@ -19,20 +19,20 @@ package test;
 import dagger.Module;
 import dagger.Provides;
 import java.lang.annotation.Retention;
-import javax.inject.Inject;
-import javax.inject.Qualifier;
+import javax.inject.InjectDagger1;
+import javax.inject.QualifierDagger1;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 class TestApp {
   static class TestClass1 {
-    @Inject @MyQualifier1 String field;
+    @InjectDagger1 @MyQualifier1 String field;
   }
   
   static class TestClass2 {
     String string;
     
-    @Inject
+    @InjectDagger1
     public TestClass2(@MyQualifier1 String constructorParam) {
       this.string = string;
     }
@@ -53,11 +53,11 @@ class TestApp {
       return "foo";
     }
   }
-  @Qualifier
+  @QualifierDagger1
   @Retention(value = RUNTIME)
   @interface MyQualifier1 {}
   
-  @Qualifier
+  @QualifierDagger1
   @Retention(value = RUNTIME)
   @interface MyQualifier2 {}
 }

@@ -17,7 +17,7 @@ package dagger.internal;
 
 
 /**
- * Injects a Provider or a MembersInjector.
+ * Injects a ProviderDagger1 or a MembersInjector.
  */
 final class BuiltInBinding<T> extends Binding<T> {
   private final String delegateKey;
@@ -39,7 +39,7 @@ final class BuiltInBinding<T> extends Binding<T> {
     throw new UnsupportedOperationException();
   }
 
-  @SuppressWarnings("unchecked") // At runtime we know 'T' is a Provider or MembersInjector.
+  @SuppressWarnings("unchecked") // At runtime we know 'T' is a ProviderDagger1 or MembersInjector.
   @Override public T get() {
     return (T) delegate;
   }

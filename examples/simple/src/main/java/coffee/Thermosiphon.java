@@ -1,11 +1,11 @@
 package coffee;
 
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 class Thermosiphon implements Pump {
   private final Heater heater;
 
-  @Inject
+  @InjectDagger1
   Thermosiphon(Heater heater) {
     this.heater = heater;
   }

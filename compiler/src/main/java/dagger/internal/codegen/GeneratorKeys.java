@@ -18,7 +18,7 @@ package dagger.internal.codegen;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.inject.Qualifier;
+import javax.inject.QualifierDagger1;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
@@ -108,7 +108,8 @@ final class GeneratorKeys {
       List<? extends AnnotationMirror> annotations) {
     AnnotationMirror qualifier = null;
     for (AnnotationMirror annotation : annotations) {
-      if (annotation.getAnnotationType().asElement().getAnnotation(Qualifier.class) == null) {
+      if (annotation.getAnnotationType()
+              .asElement().getAnnotation(QualifierDagger1.class) == null) {
         continue;
       }
       qualifier = annotation;

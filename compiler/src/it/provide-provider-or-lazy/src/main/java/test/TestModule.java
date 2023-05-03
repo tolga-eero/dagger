@@ -18,14 +18,14 @@ package test;
 import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Provider;
+import javax.inject.ProviderDagger1;
 
 @Module class TestModule {
-  @Provides Provider<Object> provideProvider() {
+  @Provides ProviderDagger1<Object> provideProvider() {
     return null;
   }
 
-  @Provides Provider provideRawProvider() {
+  @Provides ProviderDagger1 provideRawProvider() {
     return null;
   }
 

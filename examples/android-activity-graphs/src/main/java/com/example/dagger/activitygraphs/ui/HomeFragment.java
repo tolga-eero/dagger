@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.dagger.activitygraphs.DemoBaseFragment;
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 import static android.view.Gravity.CENTER;
 
@@ -30,7 +30,7 @@ public class HomeFragment extends DemoBaseFragment {
     return new HomeFragment();
   }
 
-  @Inject ActivityTitleController titleController;
+  @InjectDagger1 ActivityTitleController titleController;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {

@@ -65,14 +65,14 @@
 
             <h4>Declaring Dependencies</h4>
 
-            <p>Dagger constructs instances of your application classes and satisfies their dependencies. It uses the <code>javax.inject.Inject</code> annotation to identify which constructors and fields it is interested in.</p>
+            <p>Dagger constructs instances of your application classes and satisfies their dependencies. It uses the <code>javax.inject.InjectDagger1</code> annotation to identify which constructors and fields it is interested in.</p>
 
-            <p>Use <code>@Inject</code> to annotate the constructor that Dagger should use to create instances of a class. When a new instance is requested, Dagger will obtain the required parameters values and invoke this constructor.</p>
+            <p>Use <code>@InjectDagger1</code> to annotate the constructor that Dagger should use to create instances of a class. When a new instance is requested, Dagger will obtain the required parameters values and invoke this constructor.</p>
 
             <pre class="prettyprint">class Thermosiphon implements Pump {
   private final Heater heater;
 
-  @Inject
+  @InjectDagger1
   Thermosiphon(Heater heater) {
     this.heater = heater;
   }
@@ -83,13 +83,13 @@
             <p>Dagger can inject fields directly. In this example it obtains a <code>Heater</code> instance for the <code>heater</code> field and a <code>Pump</code> instance for the <code>pump</code> field.</p>
 
             <pre class="prettyprint">class CoffeeMaker {
-  @Inject Heater heater;
-  @Inject Pump pump;
+  @InjectDagger1 Heater heater;
+  @InjectDagger1 Pump pump;
 
   ...
 }</pre>
 
-            <p>If your class has <code>@Inject</code>-annotated fields but no <code>@Inject</code>-annotated constructor, Dagger will use a no-argument constructor if it exists. Classes that lack <code>@Inject</code> annotations cannot be constructed by Dagger.</p>
+            <p>If your class has <code>@InjectDagger1</code>-annotated fields but no <code>@InjectDagger1</code>-annotated constructor, Dagger will use a no-argument constructor if it exists. Classes that lack <code>@InjectDagger1</code> annotations cannot be constructed by Dagger.</p>
 
             <p>Dagger does not support method injection.</p>
 
@@ -97,7 +97,7 @@
 
             <p>By default, Dagger satisfies each dependency by constructing an instance of the requested type as described above. When you request a <code>CoffeeMaker</code>, it'll obtain one by calling <code>new CoffeeMaker()</code> and setting its injectable fields.</p>
 
-            <p>But <code>@Inject</code> doesn't work everywhere:</p>
+            <p>But <code>@InjectDagger1</code> doesn't work everywhere:</p>
 
             <ul>
                 <li>Interfaces can't be constructed.</li>
@@ -105,7 +105,7 @@
                 <li>Configurable objects must be configured!</li>
             </ul>
 
-            <p>For these cases where <code>@Inject</code> is insufficient or awkward, use an <code>@Provides</code>-annotated method to satisfy a dependency. The method's return type defines which dependency it satisfies.</p>
+            <p>For these cases where <code>@InjectDagger1</code> is insufficient or awkward, use an <code>@Provides</code>-annotated method to satisfy a dependency. The method's return type defines which dependency it satisfies.</p>
 
             <p>For example, <code>provideHeater()</code> is invoked whenever a <code>Heater</code> is required:</p>
 
@@ -136,14 +136,14 @@ class DripCoffeeModule {
 
             <h4>Building the Graph</h4>
 
-            <p>The <code>@Inject</code> and <code>@Provides</code>-annotated classes form a graph of objects, linked by their dependencies. Obtain this graph by calling <code>ObjectGraph.create()</code>, which accepts one or more modules:</p>
+            <p>The <code>@InjectDagger1</code> and <code>@Provides</code>-annotated classes form a graph of objects, linked by their dependencies. Obtain this graph by calling <code>ObjectGraph.create()</code>, which accepts one or more modules:</p>
 
             <pre class="prettyprint">ObjectGraph objectGraph = ObjectGraph.create(new DripCoffeeModule());</pre>
 
             <p>In order to put the graph to use we need to <strong>bootstrap injection</strong>. This usually requires injecting the main class of a command line app, or the activity classes of an Android app. In our coffee example, the <code>CoffeeApp</code> class is used to start dependency injection. We ask the graph to provide an injected instance of the class:</p>
 
             <pre class="prettyprint">class CoffeeApp implements Runnable {
-  @Inject CoffeeMaker coffeeMaker;
+  @InjectDagger1 CoffeeMaker coffeeMaker;
 
   @Override public void run() {
     coffeeMaker.brew();
@@ -176,15 +176,15 @@ class DripCoffeeModule {
 
             <h4>Singletons</h4>
 
-            <p>Annotate an <code>@Provides</code> method or injectable class with <code>@Singleton</code>. The graph will use a single instance of the value for all of its clients.</p>
+            <p>Annotate an <code>@Provides</code> method or injectable class with <code>@SingletonDagger1</code>. The graph will use a single instance of the value for all of its clients.</p>
 
-            <pre class="prettyprint">@Provides @Singleton Heater provideHeater() {
+            <pre class="prettyprint">@Provides @SingletonDagger1 Heater provideHeater() {
   return new ElectricHeater();
 }</pre>
 
-            <p>The <code>@Singleton</code> annotation on an injectable class also serves as documentation. It reminds potential maintainers that this class may be shared by multiple threads.</p>
+            <p>The <code>@SingletonDagger1</code> annotation on an injectable class also serves as documentation. It reminds potential maintainers that this class may be shared by multiple threads.</p>
 
-            <pre class="prettyprint">@Singleton
+            <pre class="prettyprint">@SingletonDagger1
 class CoffeeMaker {
   ...
 }</pre>
@@ -194,7 +194,7 @@ class CoffeeMaker {
             <p>Sometimes you need an object to be instantiated lazily.  For any binding <code>T</code>, you can create a <code>Lazy&lt;T></code> which defers instantiation until the first call to <code>Lazy&lt;T></code>'s <code>get()</code> method. If <code>T</code> is a singleton, then <code>Lazy&lt;T></code> will be the same instance for all injections within the <code>ObjectGraph</code>.  Otherwise, each injection site will get its own <code>Lazy&lt;T></code> instance.  Regardless, subsequent calls to any given instance of <code>Lazy&lt;T></code> will return the same underlying instance of <code>T</code>.</p>
 
             <pre class="prettyprint">class GridingCoffeeMaker {
-  @Inject Lazy&lt;Grinder&gt; lazyGrinder;
+  @InjectDagger1 Lazy&lt;Grinder&gt; lazyGrinder;
 
   public void brew() {
     while (needsGrinding()) {
@@ -204,12 +204,12 @@ class CoffeeMaker {
   }
 }</pre>
 
-            <h4>Provider injections</h4>
+            <h4>ProviderDagger1 injections</h4>
 
-            <p>Sometimes you need multiple instances to be returned instead of just injecting a single value.  While you have several options (Factories, Builders, etc.)   one option is to inject a <code>Provider&lt;T></code> instead of just <code>T</code>.  A <code>Provider&lt;T></code> creates a new instance of <code>T</code> each time <code>.get()</code> is called.</p>
+            <p>Sometimes you need multiple instances to be returned instead of just injecting a single value.  While you have several options (Factories, Builders, etc.)   one option is to inject a <code>ProviderDagger1&lt;T></code> instead of just <code>T</code>.  A <code>ProviderDagger1&lt;T></code> creates a new instance of <code>T</code> each time <code>.get()</code> is called.</p>
 
             <pre class="prettyprint">class BigCoffeeMaker {
-  @Inject Provider&lt;Filter&gt; filterProvider;
+  @InjectDagger1 ProviderDagger1&lt;Filter&gt; filterProvider;
 
   public void brew(int numberOfPots) {
     ...
@@ -222,36 +222,36 @@ class CoffeeMaker {
   }
 }</pre>
 
-            <p><span class="label">Note:</span><em> Injecting <code>Provider&lt;T></code> has the possibility of creating confusing code, and may be a design smell of mis-scoped or mis-structured objects in your graph.  Often you will want to use a <code>Factory&lt;T></code> or a <code>Lazy&lt;T></code> or re-organize the lifetimes and structure of your code to be able to just inject a <code>T</code>.  Injecting <code>Provider&lt;T></code> can, however, be a life saver in some cases.  A common use is when you must use a legacy architecture that doesn't line up with your object's natural lifetimes (e.g. servlets are singletons by design, but only are valid in the context of request-specfic data).</em></p>
+            <p><span class="label">Note:</span><em> Injecting <code>ProviderDagger1&lt;T></code> has the possibility of creating confusing code, and may be a design smell of mis-scoped or mis-structured objects in your graph.  Often you will want to use a <code>Factory&lt;T></code> or a <code>Lazy&lt;T></code> or re-organize the lifetimes and structure of your code to be able to just inject a <code>T</code>.  Injecting <code>ProviderDagger1&lt;T></code> can, however, be a life saver in some cases.  A common use is when you must use a legacy architecture that doesn't line up with your object's natural lifetimes (e.g. servlets are singletons by design, but only are valid in the context of request-specfic data).</em></p>
 
             <h4>Qualifiers</h4>
 
             <p>Sometimes the type alone is insufficient to identify a dependency. For example, a sophisticated coffee maker app may want separate heaters for the water and the hot plate.</p>
 
-            <p>In this case, we add a <strong>qualifier annotation</strong>. This is any annotation that itself has a <code>@Qualifier</code> annotation. Here's the declaration of <code>@Named</code>, a qualifier annotation included in <code>javax.inject</code>:</p>
+            <p>In this case, we add a <strong>qualifier annotation</strong>. This is any annotation that itself has a <code>@QualifierDagger1</code> annotation. Here's the declaration of <code>@NamedDagger1</code>, a qualifier annotation included in <code>javax.inject</code>:</p>
 
-            <pre class="prettyprint">@Qualifier
+            <pre class="prettyprint">@QualifierDagger1
 @Documented
 @Retention(RUNTIME)
-public @interface Named {
+public @interface NamedDagger1 {
   String value() default "";
 }</pre>
 
-            <p>You can create your own qualifier annotations, or just use <code>@Named</code>. Apply qualifiers by annotating the field or parameter of interest. The type and qualifier annotation will both be used to identify the dependency.</p>
+            <p>You can create your own qualifier annotations, or just use <code>@NamedDagger1</code>. Apply qualifiers by annotating the field or parameter of interest. The type and qualifier annotation will both be used to identify the dependency.</p>
 
             <pre class="prettyprint">class ExpensiveCoffeeMaker {
-  @Inject @Named("water") Heater waterHeater;
-  @Inject @Named("hot plate") Heater hotPlateHeater;
+  @InjectDagger1 @NamedDagger1("water") Heater waterHeater;
+  @InjectDagger1 @NamedDagger1("hot plate") Heater hotPlateHeater;
   ...
 }</pre>
 
             <p>Supply qualified values by annotating the corresponding <code>@Provides</code> method.</p>
 
-            <pre class="prettyprint">@Provides @Named("hot plate") Heater provideHotPlateHeater() {
+            <pre class="prettyprint">@Provides @NamedDagger1("hot plate") Heater provideHotPlateHeater() {
   return new ElectricHeater(70);
 }
 
-@Provides @Named("water") Heater provideWaterHeater() {
+@Provides @NamedDagger1("water") Heater provideWaterHeater() {
   return new ElectricHeater(93);
 }</pre>
 
@@ -261,7 +261,7 @@ public @interface Named {
 
             <p><span class="label label-important">Warning:</span> This feature should be used sparingly because static dependencies are difficult to test and reuse.</p>
 
-            <p>Dagger can inject static fields. Classes that declare static fields with <code>@Inject</code> annotations must be listed as <code>staticInjections</code> in a module annotation.</p>
+            <p>Dagger can inject static fields. Classes that declare static fields with <code>@InjectDagger1</code> annotations must be listed as <code>staticInjections</code> in a module annotation.</p>
 
             <pre class="prettyprint">@Module(
     staticInjections = LegacyCoffeeUtils.class
@@ -317,7 +317,7 @@ class DripCoffeeModule {
             <p>Because the <code>Example</code> inject in the module only uses the <code>Heater</code>, <code>javac</code> rejects the unused binding:</p>
 
             <pre>[ERROR] COMPILATION ERROR:
-[ERROR]: Graph validation failed: You have these unused @Provider methods:
+[ERROR]: Graph validation failed: You have these unused @ProviderDagger1 methods:
       1. coffee.DripCoffeeModule.provideChiller()
       Set library=true in your module to disable this check.</pre>
 
@@ -360,8 +360,8 @@ public class CoffeeAppModule {
             <p>This JUnit test overrides <code>DripCoffeeModule</code>'s binding for <code>Heater</code> with a mock object from <a href="http://mockito.googlecode.com/">Mockito</a>. The mock gets injected into the <code>CoffeeMaker</code> and also into the test.</p>
 
             <pre class="prettyprint">public class CoffeeMakerTest {
-  @Inject CoffeeMaker coffeeMaker;
-  @Inject Heater heater;
+  @InjectDagger1 CoffeeMaker coffeeMaker;
+  @InjectDagger1 Heater heater;
 
   @Before public void setUp() {
     ObjectGraph.create(new TestModule()).inject(this);
@@ -373,7 +373,7 @@ public class CoffeeAppModule {
       overrides = true
   )
   static class TestModule {
-    @Provides @Singleton Heater provideHeater() {
+    @Provides @SingletonDagger1 Heater provideHeater() {
       return Mockito.mock(Heater.class);
     }
   }
@@ -419,7 +419,7 @@ public class CoffeeAppModule {
                 <li>Injecting <code>final</code> fields and <code>private</code> members. For best performance Dagger generates code. Work around this by using constructor injection.</li>
                 <li>Eager singletons. Work around this by creating an <code>EagerSingletons</code> class that declares static fields for each eager singleton.</li>
                 <li>Method injection.</li>
-                <li>Classes that lack <code>@Inject</code> annotations cannot be constructed by Dagger, even if they have a no-argument constructor.</li>
+                <li>Classes that lack <code>@InjectDagger1</code> annotations cannot be constructed by Dagger, even if they have a no-argument constructor.</li>
             </ul>
 
             <h3 id="contributing">Contributing</h3>

@@ -3,9 +3,9 @@ import java.io.File;
 
 File buildLog = new File(basedir, "build.log");
 new BuildLogValidator().assertHasText(buildLog, new String[]{
-    "@Provides method must not return javax.inject.Provider directly: test.TestModule.provideProvider"});
+    "@Provides method must not return javax.inject.ProviderDagger1 directly: test.TestModule.provideProvider"});
 new BuildLogValidator().assertHasText(buildLog, new String[]{
-    "@Provides method must not return javax.inject.Provider directly: test.TestModule.provideRawProvider"});
+    "@Provides method must not return javax.inject.ProviderDagger1 directly: test.TestModule.provideRawProvider"});
 new BuildLogValidator().assertHasText(buildLog, new String[]{
     "@Provides method must not return dagger.LazyDagger1 directly: test.TestModule.provideLazy"});
 new BuildLogValidator().assertHasText(buildLog, new String[]{

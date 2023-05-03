@@ -15,8 +15,8 @@
  */
 package test;
 
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 class TestApp {
-  @Inject private Object nope;
+  @InjectDagger1 private Object nope;
 }

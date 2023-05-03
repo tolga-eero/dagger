@@ -18,11 +18,11 @@ package test;
 
 import dagger.ObjectGraph;
 import dagger.Module;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.inject.InjectDagger1;
+import javax.inject.SingletonDagger1;
 
 class TestApp implements Runnable {
-  @Inject C c;
+  @InjectDagger1 C c;
 
   @Override public void run() {
     c.doit();
@@ -40,20 +40,20 @@ class TestApp implements Runnable {
   @Module(addsTo=RootModule.class, injects = { C.class, TestApp.class })
   static class ExtensionModule { }
 
-  @Singleton
+  @SingletonDagger1
   static class A {
-    @Inject A() {}
+    @InjectDagger1 A() {}
   }
 
   static class B {
-    @Inject A a;
-    @Inject B() {}
+    @InjectDagger1 A a;
+    @InjectDagger1 B() {}
   }
 
   static class C {
-    @Inject A a;
-    @Inject B b;
-    @Inject C() {}
+    @InjectDagger1 A a;
+    @InjectDagger1 B b;
+    @InjectDagger1 C() {}
     public void doit() {};
   }
 }

@@ -19,10 +19,10 @@ package test;
 import dagger.Module;
 
 import dagger.ObjectGraph;
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 class TestApp implements Runnable {
-  @Inject Dependency dep;
+  @InjectDagger1 Dependency dep;
 
   @Override public void run() {
     dep.doit();
@@ -33,7 +33,7 @@ class TestApp implements Runnable {
   }
   
   static class Dependency {
-    // missing @Inject Dependency() {}
+    // missing @InjectDagger1 Dependency() {}
     public void doit() { throw AssertionError(); };
   }
   

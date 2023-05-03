@@ -61,13 +61,13 @@ package dagger;
  *   100
  * </code></pre>
  *
- * <h3>Provider Injection</h3>
- * This class injects a {@linkplain javax.inject.Provider provider} for the
- * integer. It calls {@code Provider.get()} 3 times and prints each result:
+ * <h3>ProviderDagger1 Injection</h3>
+ * This class injects a {@linkplain javax.inject.ProviderDagger1 provider} for the
+ * integer. It calls {@code ProviderDagger1.get()} 3 times and prints each result:
  * <pre><code>
  *   public class ProviderCounter {
  *
- *     &#64;Inject Provider<Integer> provider;
+ *     &#64;InjectDagger1 ProviderDagger1<Integer> provider;
  *
  *     public void print() {
  *       System.out.println("printing...");
@@ -78,7 +78,7 @@ package dagger;
  *   }
  * </code></pre>
  * Injecting a {@code ProviderCounter} and invoking {@code print()} shows that
- * a new value is computed each time {@code Provider.get()} is used:<pre><code>
+ * a new value is computed each time {@code ProviderDagger1.get()} is used:<pre><code>
  *   printing...
  *   computing...
  *   100
@@ -93,7 +93,7 @@ package dagger;
  * it calls {@code Lazy.get()} 3 times and prints each result:<pre><code>
  *   public static class LazyCounter {
  *
- *     &#64;Inject Lazy<Integer> lazy;
+ *     &#64;InjectDagger1 Lazy<Integer> lazy;
  *
  *     public void print() {
  *       System.out.println("printing...");
@@ -113,7 +113,7 @@ package dagger;
  *   100
  * </code></pre>
  *
- * <h3>Lazy != Singleton</h3>
+ * <h3>Lazy != SingletonDagger1</h3>
  * Note that each injected {@code Lazy} is independent, and remembers its value
  * in isolation of other {@code Lazy} instances. In this example, two {@code
  * LazyCounter} objects are created and {@code print()} is called on each:
@@ -141,7 +141,7 @@ package dagger;
  *   101
  *   101
  * </code></pre>
- * Use {@linkplain javax.inject.Singleton @Singleton} to share one instance
+ * Use {@linkplain javax.inject.SingletonDagger1 @SingletonDagger1} to share one instance
  * among all clients, and {@code Lazy} for lazy computation in a single client.
  */
 public interface LazyDagger1<T> {

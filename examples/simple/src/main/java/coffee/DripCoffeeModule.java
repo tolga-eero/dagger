@@ -3,7 +3,7 @@ package coffee;
 import dagger.ModuleDagger1;
 import dagger.ProvidesDagger1;
 
-import javax.inject.Singleton;
+import javax.inject.SingletonDagger1;
 
 @ModuleDagger1(
     injects = CoffeeApp.class,
@@ -11,7 +11,7 @@ import javax.inject.Singleton;
 )
 class DripCoffeeModule {
   @ProvidesDagger1
-  @Singleton Heater provideHeater() {
+  @SingletonDagger1 Heater provideHeater() {
     return new ElectricHeater();
   }
 }

@@ -17,7 +17,7 @@ package dagger.internal.codegen;
 
 import dagger.internal.Linker;
 import dagger.internal.StaticInjection;
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 import javax.lang.model.element.Element;
 
 import static dagger.internal.codegen.Util.isStatic;
@@ -33,7 +33,7 @@ public final class GraphAnalysisStaticInjection extends StaticInjection {
   @Override public void attach(Linker linker) {
     for (Element enclosedElement : enclosingClass.getEnclosedElements()) {
       if (enclosedElement.getKind().isField() && isStatic(enclosedElement)) {
-        Inject injectAnnotation = enclosedElement.getAnnotation(Inject.class);
+        InjectDagger1 injectAnnotation = enclosedElement.getAnnotation(InjectDagger1.class);
         if (injectAnnotation != null) {
           String key = GeneratorKeys.get(enclosedElement.asType());
           linker.requestBinding(key, enclosingClass.toString(),

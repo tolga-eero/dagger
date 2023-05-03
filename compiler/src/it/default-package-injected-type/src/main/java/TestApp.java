@@ -17,11 +17,11 @@
 
 import dagger.ObjectGraph;
 import dagger.Module;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.inject.InjectDagger1;
+import javax.inject.SingletonDagger1;
 
 class TestApp implements Runnable {
-  @Inject A a;
+  @InjectDagger1 A a;
 
   @Override public void run() {
     a.doit();
@@ -34,9 +34,9 @@ class TestApp implements Runnable {
   @Module(injects = { TestApp.class })
   static class TestModule {}
 
-  @Singleton
+  @SingletonDagger1
   static class A {
-    @Inject A() {}
+    @InjectDagger1 A() {}
     public void doit() {};
   }
 }

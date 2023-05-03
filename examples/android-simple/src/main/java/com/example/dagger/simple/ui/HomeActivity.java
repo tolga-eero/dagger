@@ -18,10 +18,10 @@ package com.example.dagger.simple.ui;
 import android.location.LocationManager;
 import android.os.Bundle;
 import com.example.dagger.simple.DemoBaseActivity;
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 public class HomeActivity extends DemoBaseActivity {
-  @Inject LocationManager locationManager;
+  @InjectDagger1 LocationManager locationManager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

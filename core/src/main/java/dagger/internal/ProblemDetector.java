@@ -38,7 +38,7 @@ public final class ProblemDetector {
     }
     if (!unusedBindings.isEmpty()) {
       StringBuilder builder = new StringBuilder();
-      builder.append("You have these unused @Provider methods:");
+      builder.append("You have these unused @ProviderDagger1 methods:");
       for (int i = 0; i < unusedBindings.size(); i++) {
         builder.append("\n    ").append(i + 1).append(". ")
             .append(unusedBindings.get(i).requiredBy);

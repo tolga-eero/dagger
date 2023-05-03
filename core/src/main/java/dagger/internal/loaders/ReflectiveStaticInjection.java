@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 /**
  * Uses reflection to inject the static fields of a class.
@@ -60,7 +60,8 @@ public final class ReflectiveStaticInjection extends StaticInjection {
   public static StaticInjection create(Class<?> injectedClass) {
     List<Field> fields = new ArrayList<Field>();
     for (Field field : injectedClass.getDeclaredFields()) {
-      if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(Inject.class)) {
+      if (Modifier.isStatic(field.getModifiers())
+              && field.isAnnotationPresent(InjectDagger1.class)) {
         field.setAccessible(true);
         fields.add(field);
       }

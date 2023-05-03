@@ -28,9 +28,9 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.inject.Inject;
-import javax.inject.Qualifier;
-import javax.inject.Scope;
+import javax.inject.InjectDagger1;
+import javax.inject.QualifierDagger1;
+import javax.inject.ScopeDagger1;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
@@ -45,7 +45,7 @@ import static javax.lang.model.element.Modifier.ABSTRACT;
 
 /**
  * Checks for errors that are not directly related to modules and
- *  {@code @Inject} annotated elements.
+ *  {@code @InjectDagger1} annotated elements.
  *
  *  <p> Warnings for invalid use of qualifier annotations can be suppressed
  *  with @SuppressWarnings("qualifiers")
@@ -89,15 +89,15 @@ public final class ValidationProcessor extends AbstractProcessor {
             element.getAnnotation(SuppressWarnings.class).value()).contains("qualifiers");
     int numberOfQualifiersOnElement = 0;
     for (AnnotationMirror annotation : element.getAnnotationMirrors()) {
-      if (annotation.getAnnotationType().asElement().getAnnotation(Qualifier.class) == null) {
+      if (annotation.getAnnotationType().asElement().getAnnotation(QualifierDagger1.class) == null) {
        continue;
       }
       switch (element.getKind()) {
         case FIELD:
           numberOfQualifiersOnElement++;
-          if (element.getAnnotation(Inject.class) == null && !suppressWarnings) {
+          if (element.getAnnotation(InjectDagger1.class) == null && !suppressWarnings) {
             warning("Dagger will ignore qualifier annotations on fields that are not "
-                + "annotated with @Inject: " + elementToString(element), element);
+                + "annotated with @InjectDagger1: " + elementToString(element), element);
           }
           break;
         case METHOD:
@@ -113,12 +113,12 @@ public final class ValidationProcessor extends AbstractProcessor {
               && !isProvidesMethodParameter(element, parametersToTheirMethods)
               && !suppressWarnings) {
             warning("Dagger will ignore qualifier annotations on parameters that are not "
-                + "@Inject constructor parameters or @Provides method parameters: "
+                + "@InjectDagger1 constructor parameters or @Provides method parameters: "
                 + elementToString(element), element);
           }
           break;
         default:
-          error("Qualifier annotations are only allowed on fields, methods, and parameters: "
+          error("QualifierDagger1 annotations are only allowed on fields, methods, and parameters: "
               + elementToString(element), element);
       }
     }
@@ -134,7 +134,7 @@ public final class ValidationProcessor extends AbstractProcessor {
             element.getAnnotation(SuppressWarnings.class).value()).contains("scoping");
     int numberOfScopingAnnotationsOnElement = 0;
     for (AnnotationMirror annotation : element.getAnnotationMirrors()) {
-      if (annotation.getAnnotationType().asElement().getAnnotation(Scope.class) == null) {
+      if (annotation.getAnnotationType().asElement().getAnnotation(ScopeDagger1.class) == null) {
         continue;
       }
       switch (element.getKind()) {
@@ -203,7 +203,7 @@ public final class ValidationProcessor extends AbstractProcessor {
   private boolean isInjectableConstructorParameter(
       Element parameter, Map<Element, Element> parametersToTheirMethods) {
     return parametersToTheirMethods.get(parameter).getKind() == CONSTRUCTOR
-        && parametersToTheirMethods.get(parameter).getAnnotation(Inject.class) != null;
+        && parametersToTheirMethods.get(parameter).getAnnotation(InjectDagger1.class) != null;
   }
 
   private void error(String msg, Element element) {

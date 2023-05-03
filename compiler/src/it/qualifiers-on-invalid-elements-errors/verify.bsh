@@ -3,8 +3,8 @@ import java.io.File;
 
 File buildLog = new File(basedir, "build.log");
 new BuildLogValidator().assertHasText(buildLog, new String[]{
-    "Qualifier annotations are only allowed on fields, methods, and parameters: test.TestApp.TestClass1"});   
+    "QualifierDagger1 annotations are only allowed on fields, methods, and parameters: test.TestApp.TestClass1"});
 new BuildLogValidator().assertHasText(buildLog, new String[]{
-    "Qualifier annotations are only allowed on fields, methods, and parameters: test.TestApp.TestClass1.TestClass1(java.lang.String)"});   
+    "QualifierDagger1 annotations are only allowed on fields, methods, and parameters: test.TestApp.TestClass1.TestClass1(java.lang.String)"});
 new BuildLogValidator().assertHasText(buildLog, new String[]{
-    "Qualifier annotations are only allowed on fields, methods, and parameters: test.TestApp.TestClass2.TestClass2(java.lang.String)"});
+    "QualifierDagger1 annotations are only allowed on fields, methods, and parameters: test.TestApp.TestClass2.TestClass2(java.lang.String)"});

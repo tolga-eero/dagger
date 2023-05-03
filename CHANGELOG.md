@@ -67,7 +67,7 @@ Version 1.1.0 *(2013-08-05)*
 Version 1.0.1 *(2013-06-03)*
 ----------------------------
 
- * Explicitly forbid declaring `@Inject` on a class type (e.g., `@Inject class Foo {}`).
+ * Explicitly forbid declaring `@InjectDagger1` on a class type (e.g., `@InjectDagger1 class Foo {}`).
  * Update JavaWriter to 1.0.5.
 
 

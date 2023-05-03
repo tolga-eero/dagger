@@ -18,7 +18,7 @@ package test;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 import java.lang.String;
 
 class TestApp {
@@ -26,7 +26,7 @@ class TestApp {
     TestApp app = ObjectGraph.create(new TestModule()).get(TestApp.class);
   }
 
-  @Inject String s;
+  @InjectDagger1 String s;
 
   @Module(
       injects = TestApp.class,

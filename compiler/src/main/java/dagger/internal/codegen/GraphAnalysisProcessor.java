@@ -42,7 +42,7 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.inject.Singleton;
+import javax.inject.SingletonDagger1;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
@@ -331,7 +331,7 @@ public final class GraphAnalysisProcessor extends AbstractProcessor {
     private final Binding<?>[] parameters;
 
     protected ProviderMethodBinding(String provideKey, ExecutableElement method, boolean library) {
-      super(provideKey, method.getAnnotation(Singleton.class) != null,
+      super(provideKey, method.getAnnotation(SingletonDagger1.class) != null,
           className(method), method.getSimpleName().toString());
       this.method = method;
       this.parameters = new Binding[method.getParameters().size()];

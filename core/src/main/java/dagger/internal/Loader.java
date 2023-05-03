@@ -41,7 +41,7 @@ public abstract class Loader {
       };
 
   /**
-   * Returns a binding that uses {@code @Inject} annotations, or null if no valid binding can
+   * Returns a binding that uses {@code @InjectDagger1} annotations, or null if no valid binding can
    * be found or created.
    */
   public abstract Binding<?> getAtInjectBinding(

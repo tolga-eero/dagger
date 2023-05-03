@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.inject.InjectDagger1;
+import javax.inject.SingletonDagger1;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
@@ -43,7 +43,7 @@ final class GraphAnalysisInjectBinding extends Binding<Object> {
 
   private GraphAnalysisInjectBinding(String provideKey, String membersKey,
       TypeElement type, List<String> keys, String supertypeKey) {
-    super(provideKey, membersKey, type.getAnnotation(Singleton.class) != null,
+    super(provideKey, membersKey, type.getAnnotation(SingletonDagger1.class) != null,
         type.getQualifiedName().toString());
     this.type = type;
     this.keys = keys;
@@ -70,7 +70,7 @@ final class GraphAnalysisInjectBinding extends Binding<Object> {
         List<? extends VariableElement> parameters = constructor.getParameters();
         if (hasAtInject(enclosed)) {
           if (hasAtSingleton(enclosed)) {
-            throw new IllegalArgumentException("Singleton annotations have no effect on "
+            throw new IllegalArgumentException("SingletonDagger1 annotations have no effect on "
                 + "constructors. Did you mean to annotate the class? "
                 + type.getQualifiedName().toString());
           }
@@ -89,7 +89,7 @@ final class GraphAnalysisInjectBinding extends Binding<Object> {
 
       default:
         if (hasAtInject(enclosed)) {
-          throw new IllegalArgumentException("Unexpected @Inject annotation on " + enclosed);
+          throw new IllegalArgumentException("Unexpected @InjectDagger1 annotation on " + enclosed);
         }
       }
     }
@@ -113,11 +113,11 @@ final class GraphAnalysisInjectBinding extends Binding<Object> {
   }
 
   private static boolean hasAtInject(Element enclosed) {
-    return enclosed.getAnnotation(Inject.class) != null;
+    return enclosed.getAnnotation(InjectDagger1.class) != null;
   }
 
   private static boolean hasAtSingleton(Element enclosed) {
-    return enclosed.getAnnotation(Singleton.class) != null;
+    return enclosed.getAnnotation(SingletonDagger1.class) != null;
   }
 
   @Override public void attach(Linker linker) {

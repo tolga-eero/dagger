@@ -21,13 +21,13 @@ import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
 
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 import java.io.IOException;
 import java.lang.Override;
 
 class TestApp implements Runnable {
 
-  @Inject String string;
+  @InjectDagger1 String string;
 
   @Override public void run() {
     // Yay! \o/

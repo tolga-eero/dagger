@@ -30,7 +30,7 @@ public @interface ModuleDagger1 {
    * Returns classes that object graphs created with this module must be able to
    * inject. This includes both classes passed to {@link ObjectGraph#get},
    * the types of instances passed {@link ObjectGraph#inject} and
-   * {@link javax.inject.Inject} annotated classes that need to be scoped to the
+   * {@link javax.inject.InjectDagger1} annotated classes that need to be scoped to the
    * resulting object graphs.
    *
    * <p>It is an error to call {@link ObjectGraph#get} or {@link

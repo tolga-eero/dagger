@@ -32,7 +32,7 @@ public abstract class DemoBaseActivity extends FragmentActivity {
     DemoApplication application = (DemoApplication) getApplication();
     activityGraph = application.getApplicationGraph().plus(getModules().toArray());
 
-    // Inject ourselves so subclasses will have dependencies fulfilled when this method returns.
+    // InjectDagger1 ourselves so subclasses will have dependencies fulfilled when this method returns.
     activityGraph.inject(this);
   }
 
@@ -53,7 +53,7 @@ public abstract class DemoBaseActivity extends FragmentActivity {
     return Arrays.<Object>asList(new ActivityModule(this));
   }
 
-  /** Inject the supplied {@code object} using the activity-specific graph. */
+  /** InjectDagger1 the supplied {@code object} using the activity-specific graph. */
   public void inject(Object object) {
     activityGraph.inject(object);
   }

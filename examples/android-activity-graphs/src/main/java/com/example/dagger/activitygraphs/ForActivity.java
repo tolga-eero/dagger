@@ -16,10 +16,10 @@
 package com.example.dagger.activitygraphs;
 
 import java.lang.annotation.Retention;
-import javax.inject.Qualifier;
+import javax.inject.QualifierDagger1;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Qualifier @Retention(RUNTIME)
+@QualifierDagger1 @Retention(RUNTIME)
 public @interface ForActivity {
 }

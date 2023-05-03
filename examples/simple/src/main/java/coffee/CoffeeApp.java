@@ -1,11 +1,11 @@
 package coffee;
 
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 import dagger.ObjectGraph;
 
 public class CoffeeApp implements Runnable {
-  @Inject CoffeeMaker coffeeMaker;
+  @InjectDagger1 CoffeeMaker coffeeMaker;
 
   @Override public void run() {
     coffeeMaker.brew();

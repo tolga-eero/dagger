@@ -23,8 +23,8 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Set;
-import javax.inject.Provider;
-import javax.inject.Qualifier;
+import javax.inject.ProviderDagger1;
+import javax.inject.QualifierDagger1;
 
 /**
  * Formats strings that identify the value to be injected. Keys are of one of
@@ -36,11 +36,11 @@ import javax.inject.Qualifier;
  *   <li>{@code members/com.square.Foo}: injects members of Foo.
  * </ol>
  * Bindings from {@code @Provides} methods are of the first two types. BindingsGroup
- * created from {@code @Inject}-annotated members of a class are of the first
+ * created from {@code @InjectDagger1}-annotated members of a class are of the first
  * and last types.
  */
 public final class Keys {
-  private static final String PROVIDER_PREFIX = Provider.class.getCanonicalName() + "<";
+  private static final String PROVIDER_PREFIX = ProviderDagger1.class.getCanonicalName() + "<";
   private static final String MEMBERS_INJECTOR_PREFIX =
       MembersInjectorDagger1.class.getCanonicalName() + "<";
   private static final String LAZY_PREFIX = LazyDagger1.class.getCanonicalName() + "<";
@@ -49,7 +49,7 @@ public final class Keys {
   private static final Memoizer<Class<? extends Annotation>, Boolean> IS_QUALIFIER_ANNOTATION =
       new Memoizer<Class<? extends Annotation>, Boolean>() {
         @Override protected Boolean create(Class<? extends Annotation> annotationType) {
-          return annotationType.isAnnotationPresent(Qualifier.class);
+          return annotationType.isAnnotationPresent(QualifierDagger1.class);
         }
       };
 
@@ -114,7 +114,7 @@ public final class Keys {
 
   /**
    * Validates that among {@code annotations} there exists only one annotation which is, itself
-   * qualified by {@code \@Qualifier}
+   * qualified by {@code \@QualifierDagger1}
    */
   private static Annotation extractQualifier(Annotation[] annotations,
       Object subject) {
@@ -173,8 +173,8 @@ public final class Keys {
 
   /**
    * Returns a key for the type provided by, or injected by this key. For
-   * example, if this is a key for a {@code Provider<Foo>}, this returns the
-   * key for {@code Foo}. This retains annotations and supports both Provider
+   * example, if this is a key for a {@code ProviderDagger1<Foo>}, this returns the
+   * key for {@code Foo}. This retains annotations and supports both ProviderDagger1
    * keys and MembersInjector keys.
    */
   static String getBuiltInBindingsKey(String key) {
@@ -211,7 +211,7 @@ public final class Keys {
   }
 
   /**
-   * Returns an unwrapped key (the key for T from a Provider<T> for example),
+   * Returns an unwrapped key (the key for T from a ProviderDagger1<T> for example),
    * removing all wrapping key information, but preserving annotations or known
    * prefixes.
    *

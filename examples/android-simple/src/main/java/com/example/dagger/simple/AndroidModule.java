@@ -20,7 +20,7 @@ import android.location.LocationManager;
 import dagger.ModuleDagger1;
 import dagger.ProvidesDagger1;
 
-import javax.inject.Singleton;
+import javax.inject.SingletonDagger1;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -41,12 +41,12 @@ public class AndroidModule {
    * {@link ForApplication @Annotation} to explicitly differentiate it from an activity context.
    */
   @ProvidesDagger1
-  @Singleton @ForApplication Context provideApplicationContext() {
+  @SingletonDagger1 @ForApplication Context provideApplicationContext() {
     return application;
   }
 
   @ProvidesDagger1
-  @Singleton LocationManager provideLocationManager() {
+  @SingletonDagger1 LocationManager provideLocationManager() {
     return (LocationManager) application.getSystemService(LOCATION_SERVICE);
   }
 }

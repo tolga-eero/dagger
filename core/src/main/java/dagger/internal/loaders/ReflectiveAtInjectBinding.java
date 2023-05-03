@@ -28,11 +28,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.inject.InjectDagger1;
+import javax.inject.SingletonDagger1;
 
 /**
- * Injects the {@code @Inject}-annotated fields and constructors of a class
+ * Injects the {@code @InjectDagger1}-annotated fields and constructors of a class
  * using reflection.
  */
 public final class ReflectiveAtInjectBinding<T> extends Binding<T> {
@@ -142,14 +142,15 @@ public final class ReflectiveAtInjectBinding<T> extends Binding<T> {
   }
 
   public static <T> Binding<T> create(Class<T> type, boolean mustHaveInjections) {
-    boolean singleton = type.isAnnotationPresent(Singleton.class);
+    boolean singleton = type.isAnnotationPresent(SingletonDagger1.class);
     List<String> keys = new ArrayList<String>();
 
     // Lookup the injectable fields and their corresponding keys.
     List<Field> injectedFields = new ArrayList<Field>();
     for (Class<?> c = type; c != Object.class; c = c.getSuperclass()) {
       for (Field field : c.getDeclaredFields()) {
-        if (!field.isAnnotationPresent(Inject.class) || Modifier.isStatic(field.getModifiers())) {
+        if (!field.isAnnotationPresent(InjectDagger1.class)
+                || Modifier.isStatic(field.getModifiers())) {
           continue;
         }
         if ((field.getModifiers() & Modifier.PRIVATE) != 0) {
@@ -161,12 +162,12 @@ public final class ReflectiveAtInjectBinding<T> extends Binding<T> {
       }
     }
 
-    // Look up @Inject-annotated constructors. If there's no @Inject-annotated
+    // Look up @InjectDagger1-annotated constructors. If there's no @InjectDagger1-annotated
     // constructor, use a default public constructor if the class has other
     // injections. Otherwise treat the class as non-injectable.
     Constructor<T> injectedConstructor = null;
     for (Constructor<T> constructor : getConstructorsForType(type)) {
-      if (!constructor.isAnnotationPresent(Inject.class)) {
+      if (!constructor.isAnnotationPresent(InjectDagger1.class)) {
         continue;
       }
       if (injectedConstructor != null) {
@@ -208,7 +209,7 @@ public final class ReflectiveAtInjectBinding<T> extends Binding<T> {
       parameterCount = 0;
       if (singleton) {
         throw new IllegalArgumentException(
-            "No injectable constructor on @Singleton " + type.getName());
+            "No injectable constructor on @SingletonDagger1 " + type.getName());
       }
     }
 

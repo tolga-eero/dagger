@@ -44,15 +44,15 @@ import java.util.Map.Entry;
  *       fields may be of any visibility. Static fields will be injected each
  *       time an instance is injected.
  *   <li>Constructor injection. A class may have a single
- *       {@code @Inject}-annotated constructor. Classes that have fields
- *       injected may omit the {@code @Inject} annotation if they have a public
+ *       {@code @InjectDagger1}-annotated constructor. Classes that have fields
+ *       injected may omit the {@code @InjectDagger1} annotation if they have a public
  *       no-arguments constructor.
  *   <li>Injection of {@code @Provides} method parameters.
- *   <li>{@code @Provides} methods annotated {@code @Singleton}.
- *   <li>Constructor-injected classes annotated {@code @Singleton}.
- *   <li>Injection of {@code Provider}s.
+ *   <li>{@code @Provides} methods annotated {@code @SingletonDagger1}.
+ *   <li>Constructor-injected classes annotated {@code @SingletonDagger1}.
+ *   <li>Injection of {@code ProviderDagger1}s.
  *   <li>Injection of {@code MembersInjector}s.
- *   <li>Qualifier annotations on injected parameters and fields.
+ *   <li>QualifierDagger1 annotations on injected parameters and fields.
  *   <li>JSR 330 annotations.
  * </ul>
  *

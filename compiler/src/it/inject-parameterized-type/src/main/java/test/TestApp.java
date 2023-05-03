@@ -18,7 +18,7 @@ package test;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
-import javax.inject.Inject;
+import javax.inject.InjectDagger1;
 
 class TestApp {
   public static void main(String[] args) {
@@ -26,7 +26,7 @@ class TestApp {
   }
 
   static class Supertype<T> {
-    @Inject String s;
+    @InjectDagger1 String s;
   }
 
   static class Subtype extends Supertype<Integer> {

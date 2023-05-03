@@ -18,15 +18,15 @@ package coffee;
 import dagger.ModuleDagger1;
 import dagger.ObjectGraph;
 import dagger.ProvidesDagger1;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.inject.InjectDagger1;
+import javax.inject.SingletonDagger1;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 public class CoffeeMakerTest {
-  @Inject CoffeeMaker coffeeMaker;
-  @Inject Heater heater;
+  @InjectDagger1 CoffeeMaker coffeeMaker;
+  @InjectDagger1 Heater heater;
 
   @Before public void setUp() {
     ObjectGraph.create(new TestModule()).inject(this);
@@ -39,7 +39,7 @@ public class CoffeeMakerTest {
   )
   static class TestModule {
     @ProvidesDagger1
-    @Singleton Heater provideHeater() {
+    @SingletonDagger1 Heater provideHeater() {
       return Mockito.mock(Heater.class);
     }
   }

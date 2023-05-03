@@ -198,7 +198,7 @@ public final class Linker {
    * Returns a binding for the key in {@code deferred}. The type of binding
    * to be created depends on the key's type:
    * <ul>
-   *   <li>Injections of {@code Provider<Foo>}, {@code MembersInjector<Bar>}, and
+   *   <li>Injections of {@code ProviderDagger1<Foo>}, {@code MembersInjector<Bar>}, and
    *       {@code Lazy<Blah>} will delegate to the bindings of {@code Foo}, {@code Bar}, and
    *       {@code Blah} respectively.
    *   <li>Injections of raw types will use the injectable constructors of those classes.
@@ -224,7 +224,7 @@ public final class Linker {
     }
     if (Keys.isAnnotated(key)) {
       throw new InvalidBindingException(key,
-          "is a @Qualifier-annotated type and must be bound by a @Provides method.");
+          "is a @QualifierDagger1-annotated type and must be bound by a @Provides method.");
     }
     Binding<?> binding =
         plugin.getAtInjectBinding(key, className, classLoader, mustHaveInjections);
@@ -264,7 +264,7 @@ public final class Linker {
    * enqueued to be linked.
    *
    * @param mustHaveInjections true if the the referenced key requires either an
-   *     {@code @Inject} annotation is produced by a {@code @Provides} method.
+   *     {@code @InjectDagger1} annotation is produced by a {@code @Provides} method.
    *     This isn't necessary for Module.injects types because frameworks need
    *     to inject arbitrary classes like JUnit test cases and Android
    *     activities. It also isn't necessary for supertypes.
@@ -422,7 +422,7 @@ public final class Linker {
     }
 
     @Override public String toString() {
-      return "@Singleton/" + binding.toString();
+      return "@SingletonDagger1/" + binding.toString();
     }
   }
 

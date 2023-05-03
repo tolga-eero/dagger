@@ -36,8 +36,8 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.inject.InjectDagger1;
+import javax.inject.SingletonDagger1;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -69,9 +69,9 @@ import static javax.lang.model.element.Modifier.STATIC;
 
 /**
  * Generates an implementation of {@link Binding} that injects the
- * {@literal @}{@code Inject}-annotated members of a class.
+ * {@literal @}{@code InjectDagger1}-annotated members of a class.
  */
-@SupportedAnnotationTypes("javax.inject.Inject")
+@SupportedAnnotationTypes("javax.inject.InjectDagger1")
 public final class InjectAdapterProcessor extends AbstractProcessor {
   private final Set<String> remainingTypeNames = new LinkedHashSet<String>();
 
@@ -128,9 +128,9 @@ public final class InjectAdapterProcessor extends AbstractProcessor {
   }
 
   private Set<String> findInjectedClassNames(RoundEnvironment env) {
-    // First gather the set of classes that have @Inject-annotated members.
+    // First gather the set of classes that have @InjectDagger1-annotated members.
     Set<String> injectedTypeNames = new LinkedHashSet<String>();
-    for (Element element : env.getElementsAnnotatedWith(Inject.class)) {
+    for (Element element : env.getElementsAnnotatedWith(InjectDagger1.class)) {
       if (!validateInjectable(element)) {
         continue;
       }
@@ -143,7 +143,7 @@ public final class InjectAdapterProcessor extends AbstractProcessor {
     Element injectableType = injectable.getEnclosingElement();
 
     if (injectable.getKind() == ElementKind.CLASS) {
-      error("@Inject is not valid on a class: " + elementToString(injectable), injectable);
+      error("@InjectDagger1 is not valid on a class: " + elementToString(injectable), injectable);
       return false;
     }
 
@@ -184,7 +184,7 @@ public final class InjectAdapterProcessor extends AbstractProcessor {
   }
 
   /**
-   * @param injectedClassName the name of a class with an @Inject-annotated member.
+   * @param injectedClassName the name of a class with an @InjectDagger1-annotated member.
    */
   private InjectedClass createInjectedClass(String injectedClassName) {
     TypeElement type = processingEnv.getElementUtils().getTypeElement(injectedClassName);
@@ -193,7 +193,7 @@ public final class InjectAdapterProcessor extends AbstractProcessor {
     ExecutableElement constructor = null;
     List<Element> fields = new ArrayList<Element>();
     for (Element member : type.getEnclosedElements()) {
-      if (member.getAnnotation(Inject.class) == null) {
+      if (member.getAnnotation(InjectDagger1.class) == null) {
         continue;
       }
 
@@ -212,7 +212,7 @@ public final class InjectAdapterProcessor extends AbstractProcessor {
           } else if (isAbstract) {
             // TODO(tbroyer): pass annotation information
             error("Abstract class " + type.getQualifiedName()
-                + " must not have an @Inject-annotated constructor.", member);
+                + " must not have an @InjectDagger1-annotated constructor.", member);
           }
           constructor = (ExecutableElement) member;
           break;
@@ -343,7 +343,7 @@ public final class InjectAdapterProcessor extends AbstractProcessor {
         ? GeneratorKeys.get(type.asType())
         : null;
     String membersKey = GeneratorKeys.rawMembersKey(type.asType());
-    boolean singleton = type.getAnnotation(Singleton.class) != null;
+    boolean singleton = type.getAnnotation(SingletonDagger1.class) != null;
 
     return MethodSpec.constructorBuilder()
         .addModifiers(PUBLIC)
